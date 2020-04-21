@@ -14,7 +14,7 @@ class Card
   end
 
   def tap_in
-    fail "Insufficient funds, £#{min_balance} min. required" if MIN_BALANCE < 1
+    fail "Insufficient funds: min. £#{MIN_BALANCE} required" if @balance < MIN_BALANCE
     @in_journey = true
   end
 
