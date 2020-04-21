@@ -1,20 +1,20 @@
 class Card
-  MAXIMUM_BALANCE = 90
+  MAX_BALANCE = 90
+  MIN_BALANCE = 1
   attr_reader :balance, :in_journey
-  
+
   def initialize(balance=0)
     @balance = balance
     @in_journey = false
   end
 
-  def top_up(amount_str)
-    amount = amount_str.to_i
-    fail "Enter a positive number" if amount < 0
-    fail "Top-up exceeds limit" if @balance + amount > MAXIMUM_BALANCE
+  def top_up(amount)
+    fail "Top-up exceeds balance limit" if @balance + amount > MAX_BALANCE
       @balance += amount
   end
 
   def tap_in
+    fail "Insufficient funds, £#{min_balance} min. required" if MIN_BALANCE < 1
     @in_journey = true
   end
 
