@@ -8,10 +8,6 @@ class Card
     @in_journey = false
   end
 
-  def deduct_fare(fare)
-    @balance -= fare
-  end
-
   def top_up(amount)
     fail "Top-up exceeds balance limit" if @balance + amount > MAX_BALANCE
       @balance += amount
@@ -23,7 +19,13 @@ class Card
   end
 
   def tap_out
+    deduct_fare
     @in_journey = false
+  end
+
+  private
+  def deduct_fare
+    @balance -= MIN_BALANCE
   end
 
 end
