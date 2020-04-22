@@ -21,13 +21,13 @@ describe Card do
 
   it 'is in a journey if card is tapped in & has min. balance' do
     subject.top_up(1)
-    expect { subject.tap_in(station) }.to change { subject.in_journey }.to true
+    expect { subject.tap_in(station) }.to change { subject.in_journey? }.to true
   end
 
   it 'is NOT in a journey if card is tapped out' do
     subject.top_up(1)
     subject.tap_in(station)
-    expect { subject.tap_out }.to change { subject.in_journey }.to false
+    expect { subject.tap_out }.to change { subject.in_journey? }.to false
   end
 
   it 'cant tap in if insufficient funds' do
