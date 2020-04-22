@@ -48,8 +48,10 @@ describe Card do
       expect { subject.tap_in(entry_station) }.to change { subject.journeys }.to include({:entry_station => entry_station, :exit_station => nil})
     end
 
-    # it 'adds exit_station to journeys when tapped out' do
-    # end
+    it 'when tapping out, a completed journey is added to journeys' do
+      subject.tap_in(entry_station)
+      expect { subject.tap_out(exit_station) }.to change { subject.journeys.last[:exit_station] }.from(nil).to(exit_station)
+    end
 
   end
 
