@@ -1,6 +1,8 @@
 require "card"
 
 describe Card do
+
+  let(:station) { double() }
   # new_card = Card.new
   it "starts with 0 balance" do
     expect( subject.balance ).to equal(0)
@@ -19,25 +21,30 @@ describe Card do
 
   it 'is in a journey if card is tapped in & has min. balance' do
     subject.top_up(1)
-    expect { subject.tap_in }.to change { subject.in_journey }.to true
+    expect { subject.tap_in(station) }.to change { subject.in_journey }.to true
   end
 
   it 'is NOT in a journey if card is tapped out' do
     subject.top_up(1)
-    subject.tap_in
+    subject.tap_in(station)
     expect { subject.tap_out }.to change { subject.in_journey }.to false
   end
 
   it 'cant tap in if insufficient funds' do
     min_balance = Card::MIN_BALANCE
-    expect { subject.tap_in }.to raise_error "Insufficient funds: min. £#{min_balance} required"
+    expect { subject.tap_in(station) }.to raise_error "Insufficient funds: min. £#{min_balance} required"
   end
 
   it 'on tapping out, minimum balance is deducted from £10 balance' do
     min_balance = Card::MIN_BALANCE
     subject.top_up(1)
-    subject.tap_in
+    subject.tap_in(station)
     expect { subject.tap_out }.to change { subject.balance }.by(-min_balance)
+  end
+
+  it "remembers entry_station on tap_in" do
+    subject.top_up(1)
+    expect { subject.tap_in(station) }.to change { subject.entry_station }.to eq(station)
   end
 
 end

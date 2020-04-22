@@ -1,7 +1,7 @@
 class Card
   MAX_BALANCE = 90
   MIN_BALANCE = 1
-  attr_reader :balance, :in_journey
+  attr_reader :balance, :in_journey, :entry_station
 
   def initialize(balance=0)
     @balance = balance
@@ -13,9 +13,10 @@ class Card
       @balance += amount
   end
 
-  def tap_in
+  def tap_in(entry_station)
     fail "Insufficient funds: min. £#{MIN_BALANCE} required" if @balance < MIN_BALANCE
     @in_journey = true
+    @entry_station = entry_station
   end
 
   def tap_out
