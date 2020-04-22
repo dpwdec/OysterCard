@@ -10,7 +10,8 @@ end
 
 describe Card do
 
-  let(:station) { double() }
+  let(:entry_station) { double() }
+  let(:exit_station) { double() }
   # new_card = Card.new
   it "starts with 0 balance" do
     expect( subject.balance ).to equal(0)
@@ -29,33 +30,38 @@ describe Card do
     end
 
     it 'is in a journey if card is tapped in & has min. balance' do
-      expect { subject.tap_in(station) }.to change { subject.in_journey? }.to true
+      expect { subject.tap_in(entry_station) }.to change { subject.in_journey? }.to true
     end
 
     it 'is NOT in a journey if card is tapped out' do
-      subject.tap_in(station)
-      expect { subject.tap_out }.to change { subject.in_journey? }.to false
+      subject.tap_in(entry_station)
+      expect { subject.tap_out(exit_station) }.to change { subject.in_journey? }.to false
     end
 
     it 'on tapping out, minimum balance is deducted from £10 balance' do
       min_balance = Card::MIN_BALANCE
-      subject.tap_in(station)
-      expect { subject.tap_out }.to change { subject.balance }.by(-min_balance)
+      subject.tap_in(entry_station)
+      expect { subject.tap_out(exit_station) }.to change { subject.balance }.by(-min_balance)
     end
 
-    it "remembers entry_station on tap_in" do
-      expect { subject.tap_in(station) }.to change { subject.entry_station }.to eq(station)
+    it 'adds entry_station to journeys when tapped in' do
+      expect { subject.tap_in(entry_station) }.to change { subject.journeys }.to include({:entry_station => entry_station, :exit_station => nil})
     end
 
-    it "changes entry_station to be nil on tap_out" do
-      subject.tap_in(station)
-      expect { subject.tap_out }.to change { subject.entry_station }.to be nil
+    # it 'adds exit_station to journeys when tapped out' do
+    # end
+
+  end
+
+  context 'journeys' do
+    it 'cards shows previous journeys' do
+      expect(subject.journeys).to be_a_kind_of Array
     end
   end
 
   it 'cant tap in if insufficient funds' do
     min_balance = Card::MIN_BALANCE
-    expect { subject.tap_in(station) }.to raise_error "Insufficient funds: min. £#{min_balance} required"
+    expect { subject.tap_in(entry_station) }.to raise_error "Insufficient funds: min. £#{min_balance} required"
   end
 
 end
