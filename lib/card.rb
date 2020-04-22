@@ -22,6 +22,7 @@ class Card
   def tap_out
     deduct_fare
     @in_journey = false
+    @entry_station = nil
   end
 
   private

@@ -47,4 +47,10 @@ describe Card do
     expect { subject.tap_in(station) }.to change { subject.entry_station }.to eq(station)
   end
 
+  it "changes entry_station to be nil on tap_out" do
+    subject.top_up(1)
+    subject.tap_in(station)
+    expect { subject.tap_out }.to change { subject.entry_station }.to be nil
+  end
+
 end
