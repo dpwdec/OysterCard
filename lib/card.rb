@@ -16,7 +16,7 @@ class Card
 
   def tap_in(entry_station)
     fail "Insufficient funds: min. £#{MIN_BALANCE} required" if @balance < MIN_BALANCE
-    apply_entry_penalty
+    charge(current_journey) if not @journeys.empty?
     @journeys.push(Journey.new(entry_station))
   end
 
