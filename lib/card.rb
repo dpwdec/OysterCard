@@ -56,7 +56,7 @@ class Card
   end
 
   def current_journey
-    @journeys.empty? ? Journey.new : @journeys.last
+    @journeys.empty? || @journeys.last.charged ? Journey.new : @journeys.last
   end
 
 end

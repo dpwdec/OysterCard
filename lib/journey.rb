@@ -2,7 +2,7 @@ class Journey
 
   PENALTY_FARE = 6
 
-  attr_accessor :entry_station, :exit_station
+  attr_accessor :entry_station, :exit_station, :charged
 
   def initialize(entry_station = nil)
     @entry_station = entry_station
