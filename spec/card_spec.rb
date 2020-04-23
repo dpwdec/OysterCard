@@ -16,6 +16,7 @@ describe Card do
 
   context "when initialized" do #refactored with "its". only avail with 'describe' or 'context' blocks
       its (:balance) { is_expected.to eq(0) }
+      its (:journeys) { is_expected.to eq([]) }
   end
 
   context 'when balance is at max limit' do
