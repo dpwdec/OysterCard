@@ -16,21 +16,14 @@ class Card
 
   def tap_in(entry_station)
     fail "Insufficient funds: min. £#{MIN_BALANCE} required" if @balance < MIN_BALANCE
-    check_entry_penalty
+    apply_entry_penalty
     @journeys.push(Journey.new(entry_station))
   end
 
   def tap_out(exit_station)
-    # charges penalty fare if journeys.empty or journeys complete
-    if not @journeys.empty?
-      if @journeys.last.complete?
-        deduct(Journey::PENALTY_FARE)
-      else
-        deduct(1)
-        @journeys.last.exit_station = exit_station
-      end
-    else
-      deduct(Journey::PENALTY_FARE)
+    if not apply_exit_penalty
+      deduct(1)
+      @journeys.last.exit_station = exit_station
     end
   end
 
@@ -49,9 +42,16 @@ class Card
     @balance -= amount
   end
 
-  def check_entry_penalty
+  def apply_entry_penalty
     if !@journeys.empty?
       deduct(Journey::PENALTY_FARE) if not @journeys.last.complete?
+    end
+  end
+
+  def apply_exit_penalty
+    if @journeys.empty? || @journeys.last.complete?
+      deduct(Journey::PENALTY_FARE)
+      return true
     end
   end
 
