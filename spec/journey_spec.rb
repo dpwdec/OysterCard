@@ -28,8 +28,15 @@ describe Journey do
   end
 
   describe "#fare" do
-    it 'returns a minimum fare of 1' do
+    it 'returns a minimum fare of 1 for a complete journey' do
+      subject.entry_station = entry_station
+      subject.exit_station = exit_station
       expect(subject.fare).to eq(1)
+    end
+
+    it 'does not return a charge if journey is incomplete' do
+      subject.entry_station = entry_station
+      expect(subject.fare).to eq(0)
     end
   end
 

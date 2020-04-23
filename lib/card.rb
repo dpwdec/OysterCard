@@ -55,4 +55,8 @@ class Card
     end
   end
 
+  def current_journey
+    @journeys.empty? ? Journey.new : @journeys.last
+  end
+
 end

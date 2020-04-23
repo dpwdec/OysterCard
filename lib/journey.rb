@@ -13,7 +13,7 @@ class Journey
   end
 
   def fare
-    1
+    complete? ? 1 : 0
   end
 
 end
