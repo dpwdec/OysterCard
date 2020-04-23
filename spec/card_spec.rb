@@ -1,4 +1,5 @@
 require "card"
+require 'rspec/its' # you need to intall $ gem install rspec-its
 
 shared_context "topped up" do
   let(:subject) do
@@ -13,10 +14,8 @@ describe Card do
   let(:entry_station) { double() }
   let(:exit_station) { double() }
 
-  context "when initialized" do
-    it 'balance is 0' do
-      expect( subject.balance ).to equal(0)
-    end
+  context "when initialized" do #refactored with "its". only avail with 'describe' or 'context' blocks
+      its (:balance) { is_expected.to eq(0) }
   end
 
   context 'when balance is at max limit' do
