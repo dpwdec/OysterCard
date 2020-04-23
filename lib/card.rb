@@ -21,10 +21,12 @@ class Card
   end
 
   def tap_out(exit_station)
-    if not apply_exit_penalty
-      @journeys.last.exit_station = exit_station
-      deduct(@journeys.last.fare)
-    end
+    current_journey.exit_station = exit_station
+    charge(current_journey)
+    #if not apply_exit_penalty
+      #@journeys.last.exit_station = exit_station
+      #deduct(@journeys.last.fare)
+    #end
   end
 
   def in_journey?
@@ -52,6 +54,13 @@ class Card
     if @journeys.empty? || @journeys.last.complete?
       deduct(Journey::PENALTY_FARE)
       return true
+    end
+  end
+
+  def charge(journey)
+    if not journey.charged
+      deduct(journey.fare)
+      journey.charged = true
     end
   end
 

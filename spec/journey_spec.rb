@@ -37,7 +37,7 @@ describe Journey do
 
     it 'does not return a charge if journey is incomplete' do
       subject.entry_station = entry_station
-      expect(subject.fare).to eq(0)
+      expect(subject.fare).to eq(6)
     end
   end
 
