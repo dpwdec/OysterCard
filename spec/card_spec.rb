@@ -50,7 +50,8 @@ describe Card do
         it 'adds entry_station to journeys' do
           expect { subject.tap_in(entry_station) }.to change { subject.journeys.count }.by(1)
         end
-        xit 'charges a penalty if last journey was not completed' do
+        it 'charges a penalty if last journey was not completed' do
+          subject.tap_in(entry_station)
           expect { subject.tap_in(entry_station) }.to change { subject.balance }.by(-6)
         end
     end
