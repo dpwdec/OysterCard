@@ -16,18 +16,23 @@ class Card
 
   def tap_in(entry_station)
     fail "Insufficient funds: min. £#{MIN_BALANCE} required" if @balance < MIN_BALANCE
+
+    # gets charged if last journey was incomplete
+
     station_hash = {:entry_station => entry_station, :exit_station => nil}
-    @journeys.push(station_hash)
+    new_journey = Journey.new
+    new_journey.entry_station = entry_station
+    @journeys.push(new_journey)
   end
 
   def tap_out(exit_station)
     deduct_fare
-    @journeys.last[:exit_station] = exit_station
+    @journeys.last.exit_station = exit_station
   end
 
   def in_journey?
     return false if @journeys.empty?
-    return true if @journeys.last[:exit_station] == nil
+    return true if @journeys.last.exit_station == nil
     false
   end
 

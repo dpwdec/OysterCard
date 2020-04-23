@@ -14,7 +14,7 @@ describe Card do
   let(:entry_station) { double() }
   let(:exit_station) { double() }
 
-  context "when initialized" do #refactored with "its". only avail with 'describe' or 'context' blocks
+  context "when initialized" do # refactored with "its". only avail with 'describe' or 'context' blocks
       its (:balance) { is_expected.to eq(0) }
       its (:journeys) { is_expected.to eq([]) }
   end
@@ -48,7 +48,10 @@ describe Card do
           expect { subject.tap_out(exit_station) }.to change { subject.in_journey? }.to false
         end
         it 'adds entry_station to journeys' do
-          expect { subject.tap_in(entry_station) }.to change { subject.journeys }.to include({:entry_station => entry_station, :exit_station => nil})
+          expect { subject.tap_in(entry_station) }.to change { subject.journeys.count }.by(1)
+        end
+        xit 'charges a penalty if last journey was not completed' do
+          expect { subject.tap_in(entry_station) }.to change { subject.balance }.by(-6)
         end
     end
 
@@ -60,7 +63,7 @@ describe Card do
         end
         it 'a completed journey is added to journeys' do
           subject.tap_in(entry_station)
-          expect { subject.tap_out(exit_station) }.to change { subject.journeys.last[:exit_station] }.from(nil).to(exit_station)
+          expect { subject.tap_out(exit_station) }.to change { subject.journeys.last.exit_station }.from(nil).to(exit_station)
         end
     end
   end
