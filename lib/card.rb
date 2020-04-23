@@ -22,8 +22,8 @@ class Card
 
   def tap_out(exit_station)
     if not apply_exit_penalty
-      deduct(1)
       @journeys.last.exit_station = exit_station
+      deduct(@journeys.last.fare)
     end
   end
 
