@@ -11,7 +11,7 @@ class Card
   def top_up(amount)
     fail "Cannot top-up with negative amount" if amount < 0
     fail "Top-up exceeds balance limit" if @balance + amount > MAX_BALANCE
-      @balance += amount
+    @balance += amount
   end
 
   def tap_in(entry_station)
