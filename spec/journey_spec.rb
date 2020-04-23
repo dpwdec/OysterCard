@@ -5,10 +5,10 @@ describe Journey do
   it { is_expected.to respond_to(:entry_station) }
   it { is_expected.to respond_to(:exit_station) }
 
-  describe "#complete?" do
+  let(:entry_station) { double() }
+  let(:exit_station) { double() }
 
-    let(:entry_station) { double() }
-    let(:exit_station) { double() }
+  describe "#complete?" do
 
     it "returns false if exit_station or entry_station are not nil" do
       subject.entry_station = entry_station
@@ -24,6 +24,12 @@ describe Journey do
     it "returns true if entry_station is nil" do
       subject.exit_station = exit_station
       expect(subject.complete?).to be false
+    end
+  end
+
+  describe "#fare" do
+    it 'returns a minimum fare of 1' do
+      expect(subject.fare).to eq(1)
     end
   end
 

@@ -12,4 +12,8 @@ class Journey
     entry_station.nil? || exit_station.nil? ? false : true
   end
 
+  def fare
+    1
+  end
+
 end
