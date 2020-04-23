@@ -34,6 +34,9 @@ describe Card do
         it '£10 top-up' do
           expect{ subject.top_up(10) }.to change { subject.balance }.from(1).to(11)
         end
+        it 'negative top-up' do
+          expect{ subject.top_up(-10) }.to raise_error "Cannot top-up with negative amount"
+        end
     end
 
     describe '#tap_in' do
