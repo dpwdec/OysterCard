@@ -52,7 +52,7 @@ describe Card do
         end
         it 'charges a penalty if last journey was not completed' do
           subject.tap_in(entry_station)
-          expect { subject.tap_in(entry_station) }.to change { subject.balance }.by(-6)
+          expect { subject.tap_in(entry_station) }.to change { subject.balance }.by(-Journey::PENALTY_FARE)
         end
     end
 
@@ -65,6 +65,14 @@ describe Card do
         it 'a completed journey is added to journeys' do
           subject.tap_in(entry_station)
           expect { subject.tap_out(exit_station) }.to change { subject.journeys.last.exit_station }.from(nil).to(exit_station)
+        end
+        it 'charges a penalty if first journey' do
+          expect { subject.tap_out(exit_station) }.to change { subject.balance }.by(-Journey::PENALTY_FARE)
+        end
+        it 'charges a penalty if last journey was complete' do
+          subject.tap_in(entry_station)
+          subject.tap_out(exit_station)
+          expect { subject.tap_out(exit_station) }.to change { subject.balance }.by(-Journey::PENALTY_FARE)
         end
     end
   end

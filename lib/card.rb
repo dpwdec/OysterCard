@@ -21,13 +21,16 @@ class Card
   end
 
   def tap_out(exit_station)
-    deduct(1)
-    @journeys.last.exit_station = exit_station
-  end
-
-  def check_entry_penalty
-    if !@journeys.empty?
-      deduct(6) if @journeys.last.exit_station.nil?
+    # charges penalty fare if journeys.empty or journeys complete
+    if not @journeys.empty?
+      if @journeys.last.complete?
+        deduct(Journey::PENALTY_FARE)
+      else
+        deduct(1)
+        @journeys.last.exit_station = exit_station
+      end
+    else
+      deduct(Journey::PENALTY_FARE)
     end
   end
 
@@ -44,6 +47,12 @@ class Card
   private
   def deduct(amount)
     @balance -= amount
+  end
+
+  def check_entry_penalty
+    if !@journeys.empty?
+      deduct(Journey::PENALTY_FARE) if not @journeys.last.complete?
+    end
   end
 
 end
