@@ -17,9 +17,7 @@ class Card
   def tap_in(entry_station)
     fail "Insufficient funds: min. £#{MIN_BALANCE} required" if @balance < MIN_BALANCE
     check_entry_penalty
-    new_journey = Journey.new
-    new_journey.entry_station = entry_station
-    @journeys.push(new_journey)
+    @journeys.push(Journey.new(entry_station))
   end
 
   def tap_out(exit_station)
